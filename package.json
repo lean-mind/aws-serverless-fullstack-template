@@ -4,7 +4,14 @@
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prefirst-deploy": "serverless deploy --nos3sync && cd src/frontend && npm run build",
+    "first-deploy": "serverless deploy --force",
+    "predeploy": "cd src/frontend && npm run build",
+    "deploy": "serverless deploy",
+    "preforce-deploy": "npm run predeploy",
+    "force-deploy": "serverless deploy --force",
+    "deploy-nos3sync": "serverless deploy --nos3sync",
+    "server-local": "ts-node src/infra/express/main.ts"
   },
   "engines": {
     "node": ">=14.15.0"
@@ -19,10 +26,14 @@
     "@serverless/typescript": "^3.0.0",
     "@types/aws-lambda": "^8.10.71",
     "@types/node": "^14.14.25",
+    "cors": "^2.8.5",
     "esbuild": "^0.14.11",
+    "express": "^4.18.1",
     "json-schema-to-ts": "^1.5.0",
     "serverless": "^3.0.0",
     "serverless-esbuild": "^1.23.3",
+    "serverless-s3-sync": "^3.0.0",
+    "serverless-stack-output": "^0.2.3",
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.1.3"

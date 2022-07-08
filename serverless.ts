@@ -1,26 +1,11 @@
-import type { AWS } from '@serverless/typescript';
+import type { AWS } from '@serverless/typescript'
 
 import * as functions from '@functions'
 
 const serverlessConfiguration: AWS = {
   service: 'serverless-front-back-template',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild'],
-  provider: {
-    name: 'aws',
-    runtime: 'nodejs14.x',
-    apiGateway: {
-      minimumCompressionSize: 1024,
-      shouldStartNameWithService: true,
-    },
-    environment: {
-      AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-      NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-    },
-  },
-  // import the function via paths
-  functions: { ...functions },
-  package: { individually: true },
+  plugins: ['serverless-esbuild', 'serverless-s3-sync', 'serverless-stack-output'],
   custom: {
     esbuild: {
       bundle: true,
@@ -32,7 +17,80 @@ const serverlessConfiguration: AWS = {
       platform: 'node',
       concurrency: 10,
     },
+    stage: '${opt:stage, "dev"}',
+    frontendDeploymentBucketName: '${self:custom.stage}-serverless-fullstack-app-frontend',
+    s3Sync: [
+      { bucketName: '${self:custom.frontendDeploymentBucketName}', localDir: 'src/frontend/build/' },
+    ],
+    output: {
+      file: 'src/frontend/src/config/backendDeploymentInfo.json'
+    },
   },
-};
+  provider: {
+    name: 'aws',
+    runtime: 'nodejs14.x',
+    region: 'eu-west-2',
+    stage: '${self:custom.stage}',
+    apiGateway: {
+      minimumCompressionSize: 1024,
+      shouldStartNameWithService: true,
+    },
+    environment: {
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+    },
+  },
+  // import the function via paths
+  functions: { ...functions },
+  package: {
+    individually: true,
+    exclude: [
+      'src/frontend'
+    ],
+  },
+  resources: {
+    Resources: {
+      FrontEndDeploymentBucket: {
+        Type: 'AWS::S3::Bucket',
+        Properties: {
+          BucketName: '${self:custom.frontendDeploymentBucketName}',
+          AccessControl: 'PublicRead',
+          WebsiteConfiguration: {
+            IndexDocument: 'index.html',
+            ErrorDocument: 'index.html',
+          },
+          CorsConfiguration: {
+            CorsRules: [
+              {
+                Id: 'allowCors',
+                MaxAge: 3600,
+                AllowedHeaders: ['*'],
+                AllowedMethods: ['GET', 'POST', 'PUT', 'DELETE', 'HEAD'],
+                AllowedOrigins: ['*'],
+              }
+            ]
+          }
+        },
+      },
+      S3AccessPolicy: {
+        Type: 'AWS::S3::BucketPolicy',
+        Properties: {
+          Bucket: {
+            Ref: 'FrontEndDeploymentBucket'
+          },
+          PolicyDocument: {
+            Statement: [{
+              Sid: 'PublicReadGetObject',
+              Effect: 'Allow',
+              Principal: '*',
+              Action: ['s3:GetObject'],
+              Resource: 'arn:aws:s3:::${self:custom.frontendDeploymentBucketName}/*',
+            }],
+          },
+        },
+      },
+    },
+  },
+}
 
-module.exports = serverlessConfiguration;
+module.exports = serverlessConfiguration

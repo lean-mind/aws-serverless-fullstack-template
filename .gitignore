@@ -7,3 +7,11 @@ jspm_packages
 
 # esbuild directories
 .esbuild
+
+src/frontend/build
+src/frontend/node_modules
+src/frontend/coverage
+src/frontend/.env.local
+src/frontend/.env.development.local
+src/frontend/.env.test.local
+src/frontend/.env.production.local
