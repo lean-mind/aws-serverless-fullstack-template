@@ -1,7 +1,7 @@
 {
-  "name": "serverless-front-back-template",
+  "name": "aws-serverless-fullstack-template",
   "version": "1.0.0",
-  "description": "Serverless aws-nodejs-typescript template",
+  "description": "AWS Serverless fullstack template",
   "main": "serverless.ts",
   "scripts": {
     "prefirst-deploy": "serverless deploy --nos3sync && cd src/frontend && npm run build",
