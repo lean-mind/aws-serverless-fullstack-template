@@ -1,4 +1,5 @@
 {
+  "httpMethod": "POST",
   "headers": {
     "Content-Type": "application/json"
   },
