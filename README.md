@@ -59,8 +59,8 @@ The body structure is tested by API Gateway against `src/functions/hello/schema.
 
 In order to test the hello function locally, run the following command:
 
-- `npx sls invoke local -f hello --path src/functions/hello/mock.json` if you're using NPM
-- `yarn sls invoke local -f hello --path src/functions/hello/mock.json` if you're using Yarn
+- `npx sls invoke local -f hello --path src/infra/functions/hello/mock.json` if you're using NPM
+- `yarn sls invoke local -f hello --path src/infra/functions/hello/mock.json` if you're using Yarn
 
 Check the [sls invoke local command documentation](https://www.serverless.com/framework/docs/providers/aws/cli-reference/invoke-local/) for more information.
 
