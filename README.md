@@ -18,6 +18,7 @@ Depending on your preferred package manager, follow the instructions below to de
 ### Using NPM
 
 - Install the project dependencies
+
 ```shell
 npm i && cd src/frontend && npm i && cd ../../
 
@@ -45,7 +46,11 @@ After the first deployment, you can deploy by using:
 
 ## Test your service
 
-This template contains a single lambda function triggered by an HTTP request made on the provisioned API Gateway REST API `/hello` route with `POST` method. The request body must be provided as `application/json`, as follows:
+#### Note
+
+This template contains a single lambda function triggered by an HTTP request made on the provisioned API Gateway REST API `/hello` route with `POST` method.
+
+The request body must be provided as `application/json`, as follows:
 
 ```json
 {
@@ -55,28 +60,37 @@ This template contains a single lambda function triggered by an HTTP request mad
 ```
 The body structure is tested by API Gateway against `src/functions/hello/schema.ts` JSON-Schema definition: it must contain the `name` property.
 
+---
+
 ### Locally
 
 In order to test the hello function locally, run the following command:
 
-- `npx sls invoke local -f hello --path src/infra/functions/hello/mock.json` if you're using NPM
-- `yarn sls invoke local -f hello --path src/infra/functions/hello/mock.json` if you're using Yarn
+```shell
+npx sls invoke local -f hello --path src/infra/functions/hello/mock.json
+```
+Or, if you're using Yarn:
+```shell
+yarn sls invoke local -f hello --path src/infra/functions/hello/mock.json
+```
 
 Check the [sls invoke local command documentation](https://www.serverless.com/framework/docs/providers/aws/cli-reference/invoke-local/) for more information.
 
 ### Remotely
 
-Copy and replace your `url` - found in Serverless `deploy` command output - and `name` parameter in the following `curl` command in your terminal or in Postman to test your newly deployed application.
+To make a test call to the deployed lambda, copy the following `curl` command to a terminal, Postman, etc.:
 
-```
-curl --location --request POST 'https://myApiEndpoint/dev/hello' \
+```shell
+curl --location --request POST '[YOUR_URL]' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "name": "Frederic"
+    "name": "[YOUR_NAME]"
 }'
 ```
 
-### Behavior
+Replace `[YOUR_URL]` with the URL found in Serverless `deploy` command output, and `[YOUR_NAME]` with whatever name you want to use.
+
+### Expected Behavior
 
 - Requesting any path other than `/hello` with any method other than `POST` will result in a `403` HTTP error code
 - Sending a `POST` request to `/hello` with a payload **not** containing a string property named `name` will result in a `400` HTTP error code
