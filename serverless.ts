@@ -5,7 +5,7 @@ import * as functions from '@functions'
 const serverlessConfiguration: AWS = {
   service: 'serverless-front-back-template',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild', 'serverless-s3-sync', 'serverless-stack-output'],
+  plugins: ['serverless-esbuild', 'serverless-stack-output'],
   custom: {
     esbuild: {
       bundle: true,
@@ -18,10 +18,7 @@ const serverlessConfiguration: AWS = {
       concurrency: 10,
     },
     stage: '${opt:stage, "dev"}',
-    frontendDeploymentBucketName: '${self:custom.stage}-serverless-fullstack-app-frontend',
-    s3Sync: [
-      { bucketName: '${self:custom.frontendDeploymentBucketName}', localDir: 'src/frontend/build/' },
-    ],
+    frontendDeploymentBucketName: '${self:service}-${self:custom.stage}-frontend-deployment',
     output: {
       file: 'src/frontend/src/config/backendDeploymentInfo.json'
     },
@@ -87,6 +84,14 @@ const serverlessConfiguration: AWS = {
               Resource: 'arn:aws:s3:::${self:custom.frontendDeploymentBucketName}/*',
             }],
           },
+        },
+      },
+    },
+    Outputs: {
+      S3FrontendDeploymentBucket: {
+        Description: 'Frontend Deployment Bucket Name',
+        Value: {
+          'Ref': 'FrontEndDeploymentBucket'
         },
       },
     },

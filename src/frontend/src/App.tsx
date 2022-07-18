@@ -2,6 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import { API_ENDPOINT } from './config'
+
 function App() {
   return (
     <div className="App">
@@ -19,6 +21,8 @@ function App() {
           Learn React
         </a>
       </header>
+
+      <p>API Endpoint: {API_ENDPOINT}</p>
     </div>
   );
 }
