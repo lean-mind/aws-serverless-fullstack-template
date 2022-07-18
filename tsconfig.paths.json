@@ -2,10 +2,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@infra/*": ["src/infra/*"],
-      "@functions": ["src/infra/functions"],
-      "@functions/*": ["src/infra/functions/*"],
-      "@aws/*": ["src/infra/aws/*"]
+      "@infra/*": ["src/backend/infra/*"],
+      "@functions": ["src/backend/infra/functions"],
+      "@functions/*": ["src/backend/infra/functions/*"],
+      "@aws/*": ["src/backend/infra/aws/*"]
     }
   }
 }

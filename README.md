@@ -71,25 +71,26 @@ The project code base is mainly located within the `src` folder. This folder is 
 ```
 .
 ├── src
-│   ├── domain                         # Domain layer source code folder
-│   ├── frontend                       # Create-React-App frontend code folder
-│   └── infra                          # All infrastructure pieces of code
-│       ├── aws                        
-│       │   └── api-gateway            # API Gateway specific helpers folder
-        ├── express                    
-            └── main.js                # ExpressJS backend server for local environment integration purpose (will NOT be deployed)    
-│       └── functions
-│           ├── hello
-│           │   ├── handler.ts         # `Hello` lambda source code
-│           │   ├── index.ts           # `Hello` lambda Serverless configuration
-│           │   ├── mock.json          # `Hello` lambda input parameter, if any, for local invocation
-│           │   └── schema.ts          # `Hello` lambda input event JSON-Schema
-│           ├── handler-resolver.ts    # Sharable library for resolving lambda handlers
-│           └── index.ts               # Import/export of all lambda configurations
-├── package.json                                                          
-├── serverless.ts                      # Serverless service file          
-├── tsconfig.json                      # Typescript compiler configuration
-└── tsconfig.paths.json                # Typescript paths                 
+│   ├── backend
+│   │   ├── domain                         # Domain layer source code folder
+│   │   └── infra                          # All infrastructure pieces of code
+│   │       ├── aws                        
+│   │       │   └── api-gateway            # API Gateway specific helpers folder
+│   │       ├── express                    
+│   │       │   └── main.js                # ExpressJS backend server for local environment integration purpose (will NOT be deployed)    
+│   │       └── functions
+│   │           ├── hello
+│   │           │   ├── handler.ts         # `Hello` lambda source code
+│   │           │   ├── index.ts           # `Hello` lambda Serverless configuration
+│   │           │   ├── mock.json          # `Hello` lambda input parameter, if any, for local invocation
+│   │           │   └── schema.ts          # `Hello` lambda input event JSON-Schema
+│   │           ├── handler-resolver.ts    # Sharable library for resolving lambda handlers
+│   │           └── index.ts               # Import/export of all lambda configurations        
+│   └── frontend                           # Create-React-App frontend code folder
+├── package.json                                                              
+├── serverless.ts                          # Serverless service file          
+├── tsconfig.json                          # Typescript compiler configuration
+└── tsconfig.paths.json                    # Typescript paths                 
 ```
 
 ### 3rd party libraries
